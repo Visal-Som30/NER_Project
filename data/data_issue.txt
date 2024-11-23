@@ -1,0 +1,10 @@
+1. Data in train/2014: not using tab
+2. Data in dev/2019: error with encoding text
+3. Data in test/2012: no space for define as separate sentence
+4. Data in dev/2009: starting term with "I"
+Example:
+This	O
+is	O
+NLP	I	
+5. Untagged words
+6. Lines with tags but no words
