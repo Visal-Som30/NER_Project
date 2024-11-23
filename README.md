@@ -15,7 +15,7 @@ Follow these steps to clone the project, set up a virtual environment, and insta
 Start by cloning the project repository from GitHub (or another Git hosting service) to your local machine.
 
 ```
-git clone https://github.com/your-username/ner-project.git
+git clone https://github.com/Visal-Som30/NER_Project.git
 ```
 
 ## Step 2: Navigate to the Project Directory
