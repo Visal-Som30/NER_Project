@@ -86,5 +86,3 @@ ner_project/
 └── config.yaml                  # Configuration file for hyperparameters and settings
 ```
 
-
->>>>>>> 8b203fd86b9e82326c69b4fc78118deb073ebcfa
