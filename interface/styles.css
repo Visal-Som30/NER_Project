@@ -1,0 +1,72 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    margin: 20px;
+}
+
+.ner-container {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.legend {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.label {
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.label.name {
+    background-color: #4a90e2; /* Blue */
+}
+
+.label.date {
+    background-color: #e74c3c; /* Red */
+}
+
+.label.designation {
+    background-color: #50c878; /* Green */
+}
+
+.label.subject {
+    background-color: #f1c40f; /* Yellow */
+}
+
+.text {
+    font-size: 16px;
+    color: #333;
+}
+
+.entity {
+    padding: 3px 6px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+}
+
+.entity.name {
+    background-color: #4a90e2;
+}
+
+.entity.date {
+    background-color: #e74c3c;
+}
+
+.entity.designation {
+    background-color: #50c878;
+}
+
+.entity.subject {
+    background-color: #f1c40f;
+}
