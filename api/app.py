@@ -1,11 +1,15 @@
 import pickle
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 import PyPDF2
 import io
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder='../interface',  # Point to the HTML folder
+    static_folder='../interface'    # Point to the folder with JS and CSS
+)
 CORS(app)
 
 
@@ -81,9 +85,9 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/')
-def hello_world():
-    """Root route for server check."""
-    return "Flask API is up and running!"
+def index():
+    # Render the index.html file from the interface folder
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
