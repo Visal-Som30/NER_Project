@@ -5,40 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NER NLP Key Term Extraction</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="../interface/style.css"> -->
-    <style>
-    .highlight-Name { 
-        background-color: #007bff; 
-        color: white;
-        padding: 2px 6px; 
-        border-radius: 4px; 
-    }
-    .highlight-Date { 
-        background-color: #dc3545;
-        color: white; 
-        padding: 2px 6px; 
-        border-radius: 4px;
-     }
-    .highlight-Designation {
-        background-color: #28a745;
-        color: white; 
-        padding: 2px 6px; 
-        border-radius: 4px; 
-    }
-    .highlight-Subject {   
-        background-color: #ffc107;
-        color: black; 
-        padding: 2px 6px; 
-        border-radius: 4px;
-        }  
-    </style>
+    <link rel="stylesheet" href="../interface/styles.css">
 </head>
 <body>
     <div class="container my-5">
-        <h1 class="text-center mb-4">NER - NLP Key Term Extraction</h1>
+        <h1 class="text-center mb-4">NER - NLP Key Terms Extraction</h1>
         <div class="card shadow">
             <div class="card-body">
-                <form id="ner-form">
+                <form id="ner-form", method="POST">
                     <div class="mb-3">
                         <label for="inputText" class="form-label">Input Sentence</label>
                         <textarea class="form-control" id="inputText" rows="3" placeholder="Type a sentence..."></textarea>
@@ -47,12 +21,23 @@
                         <label for="uploadPDF" class="form-label">Upload PDF</label>
                         <input type="file" class="form-control" id="uploadPDF" accept=".pdf">
                     </div>
+                    <div class="mb-3">
+                        <label for="modelSelection" class="form-label">Select Model</label>
+                        <select class="form-select" id="modelSelection">
+                            <option value="" disabled selected>Select a model</option>
+                            <option value="crf">CRFs</option>
+                            <option value="lstm">LSTM</option>
+                            <option value="cnn-lstm">CNN-LSTM</option>
+                        </select>
+                    </div>
                     <button type="button" class="btn btn-primary w-100" onclick="processNER()">Predict Labels</button>
                 </form>
             </div>
         </div>
         <div class="mt-4" id="resultSection" style="display: none;">
             <h3 class="text-center">Prediction Results</h3>
+            <div id="total-token" class="p-3 border rounded bg-light"></div>
+            <br>
             <div id="results" class="p-3 border rounded bg-light"></div>
         </div>
     </div>
