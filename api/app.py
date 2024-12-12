@@ -1,30 +1,89 @@
+import pickle
 from flask import Flask, jsonify, request
+from flask_cors import CORS
+import PyPDF2
+import io
 
-# Initialize the Flask application
+# Initialize Flask app
 app = Flask(__name__)
+CORS(app)
 
-# Define a route to return a simple message
+
+# Load your trained model
+model_path = '../models/trained_models/crf_model.pkl'
+with open(model_path, 'rb') as model_file:
+    model = pickle.load(model_file)
+
+# Stop words (can customize based on your dataset)
+stop_words = set([
+    'the', 'and', 'in', 'to', 'of', 'we', 'that', 'is', 'on', 'for', 'with', 'as', 'at', 'from', 'a'
+])
+
+def create_features(data):
+    """Generate features for each token."""
+    features = []
+    for word, _, token_length in data:
+        word_features = {
+            'word': word,
+            'length': token_length,
+            'is_alpha': word.isalpha(),
+            'is_stop': word.lower() in stop_words,
+            'has_digit': any(char.isdigit() for char in word)
+        }
+        features.append(word_features)
+    return features
+
+@app.route('/extract-text', methods=['POST'])
+def extract_text():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part in the request'}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No file selected for uploading'}), 400
+
+    try:
+        # Read the PDF file
+        pdf_reader = PyPDF2.PdfReader(io.BytesIO(file.read()))
+        text = ''
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+
+        text = text.replace('\n', '')
+        
+        return jsonify({'text': text}), 200
+    except Exception as e:
+        return jsonify({'error': f'Error extracting text: {str(e)}'}), 500
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    """API route to handle predictions."""
+    try:
+        # Parse request data
+        data = request.get_json()
+        if not data or 'text' not in data:
+            return jsonify({"error": "No text provided"}), 400
+
+        text = data['text']
+        if not text.strip():
+            return jsonify({"error": "Text is empty"}), 400
+
+        # Preprocess and predict
+        test_sentence = text.split(" ")
+        test_features = create_features([(word, '', len(word)) for word in test_sentence])
+        predictions = model.predict([test_features])[0]
+
+        # Map tokens to their predicted labels
+        result = [{'word': word, 'label': label} for word, label in zip(test_sentence, predictions)]
+
+        return jsonify({'prediction': result})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/')
 def hello_world():
-    return "Hello, World!"
-
-# Define a route to return data in JSON format
-@app.route('/api/data', methods=['GET'])
-def get_data():
-    data = {
-        'message': 'This is a simple Flask API.',
-        'status': 'success'
-    }
-    return jsonify(data)
-
-# Define a route to handle POST requests
-@app.route('/api/echo', methods=['POST'])
-def echo_data():
-    # Get data from the request body
-    input_data = request.get_json()
-    
-    # Return the data as part of the response
-    return jsonify({'received_data': input_data})
+    """Root route for server check."""
+    return "Flask API is up and running!"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
