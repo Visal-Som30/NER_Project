@@ -163,3 +163,13 @@ async function processNER() {
     // Show the result section if not visible
     document.getElementById('resultSection').style.display = 'block';
 }
+
+// Function to handle clear user input
+function clearInput() {
+    document.getElementById('inputText').value = '';
+    document.getElementById('uploadPDF').value = '';
+    document.getElementById('modelSelection').value = '';
+    document.getElementById('results').innerHTML = '';
+    document.getElementById('total-token').innerHTML = '';
+    document.getElementById('resultSection').style.display = 'none';
+}

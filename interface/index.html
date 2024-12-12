@@ -30,7 +30,10 @@
                             <option value="cnn-lstm">CNN-LSTM</option>
                         </select>
                     </div>
-                    <button type="button" class="btn btn-primary w-100" onclick="processNER()">Predict Labels</button>
+                    <div class="d-flex gap-4">
+                        <button type="button" class="btn btn-danger w-100" onclick="clearInput()">Clear Input</button>
+                        <button type="button" class="btn btn-primary w-100" onclick="processNER()">Predict Labels</button>
+                    </div>
                 </form>
             </div>
         </div>
